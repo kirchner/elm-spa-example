@@ -8,6 +8,12 @@
             "code": "en",
             "file-path": "./translations/en.json",
             "fallbacks": []
+        },
+        {
+            "name": "de",
+            "code": "de",
+            "file-path": "./translations/de.json",
+            "fallbacks": [ "en" ]
         }
     ]
 }

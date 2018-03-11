@@ -1,0 +1,112 @@
+{
+    "okButton": "OK",
+    "homeLink": "Startseite",
+    "newPostLink": "Neuer Artikel",
+    "settingsLink": "Einstellungen",
+    "signOutLink": "Ausloggen",
+    "conduit": "conduit",
+    "attribution": "Ein interaktives Lernproject von {link, node, {Thinkster}}. Code & design lizensiert unter der MIT Lizenz.",
+    "article": {
+        "articleUnavailable": "Der Artikel ist momentan nicht verfügbar.",
+        "signInOrSignUp": "Du musst dich {toLogin, node, {einloggen}} oder {toRegister, node, {registrieren}} um Artikel kommentieren zu können.",
+        "writeAComment": "Schreibe einen Kommentare...",
+        "postComment": "Poste den Kommentar",
+        "favouriteArticleButton": "Zu Lieblingsartikeln hinzufügen ({count, number})",
+        "deleteArticleButton": "Artikel löschen",
+        "editArticleButton": "Artikel editieren",
+        "readMore": "Lies mehr...",
+        "error": {
+            "recordFavorite": "Beim Abspeichern deines Favoriten ist ein Server Fehler aufgetreten. Tut uns leid!",
+            "followUser": "Folgen des Benutzers nicht möglich.",
+            "postComment": "Beim Posten eines Kommentars ist ein Server Fehler aufgetreten.",
+            "deleteComment": "Beim Entfernen eines Kommentars ist ein Server Fehler aufgetreten.",
+            "deleteArticle": "Beim Entfernen eines Artikels ist ein Server Fehler aufgetreten."
+        },
+        "editor": {
+            "titlePlaceholder": "Artikelüberschrift",
+            "descriptionPlaceholder": "Worum geht es in diesem Artikel?",
+            "contentPlaceholder": "Schreib deinen Artikel (in Markdown)",
+            "tagsPlaceholder": "Füge Tags hinzu",
+            "saveButtonUpdate": "Artikel updaten",
+            "saveButtonPublish": "Artikel veröffentlichen",
+            "error": {
+                "articleUnavailable": "Der Artikel ist momentan nicht verfügbar.",
+                "publishArticle": "Beim Veröffentlichen des Artikels ist ein Server Fehler aufgetreten.",
+                "saveArticle": "Beim Speichern des Artikels ist einer Server Fehler aufgetreten.",
+                "titleBlank": "Die Überschrift darf nicht leer sein.",
+                "bodyBlank": "Der Artikeltext darf nicht leer sein."
+            }
+        },
+        "feed": {
+            "yourFeed": "Dein Feed",
+            "globalFeed": "Globaler Feed",
+            "favoritedFeed": "Lieblingsartikel",
+            "authorFeed": "Meine Artikel",
+            "error": {
+                "loadFeed": "Beim Laden des Feeds ist ein Server Fehler aufgetreten.",
+                "signedOut": "Du bist momentan ausgeloggt. Du musst dich einloggen, wenn du Artikel zu deinen Favoriten hinzufügen möchtest.",
+                "favoriteArticle": "Beim hinzufügen eines Artikels zu deinen Favoriten ist ein Server Fehler aufgetreten.",
+                "signedIn": "Wenn du deinen Feed sehen möchtest, musst du dich einloggen."
+            }
+        }
+    },
+    "errored": {
+        "title": "Fehler beim Laden der Seite"
+    },
+    "home": {
+        "homepageUnavailable": "Die Startseite ist momentan nicht verfügbar.",
+        "subtitle": "Ein Ort um dein Wissen zu Teilen.",
+        "popularTags": {
+            "title": "Beliebte Tags"
+        }
+    },
+    "login": {
+        "title": "Einloggen",
+        "subtitle": "Brauchst du einen Account?",
+        "emailPlaceholder": "E-Mail",
+        "passwordPlaceholder": "Passwort",
+        "signInButton": "Einloggen",
+        "error": {
+            "login": "Einloggen ist nicht möglich",
+            "emailBlank": "Du musst eine E-Mail angeben.",
+            "passwordBlank": "Du musst ein Passwort angeben."
+        }
+    },
+    "notFound": {
+        "title": "Nicht gefunden"
+    },
+    "profile": {
+        "error": {
+            "profileUnavailable": "Das Profil ist momentan nicht verfügbar.",
+            "signedOut": "Du bist gerade ausgeloggt. Du musst dich einloggen, wenn du anderen Personen folgen möchtest."
+        }
+    },
+    "register": {
+        "title": "Anmelden",
+        "subtitle": "Hast du bereits einen Account?",
+        "usernamePlaceholder": "Benutzername",
+        "emailPlaceholder": "E-Mail",
+        "passwordPlaceholder": "Passwort",
+        "signUpButton": "Anmelden",
+        "error": {
+            "registration": "Anmeldung war nicht erfolgreich",
+            "usernameBlank": "Du musst einen Benutzernamen angeben.",
+            "emailBlank": "Du musst eine E-Mail angeben.",
+            "passwordBlank": "Du musst ein Passwort angeben."
+        }
+    },
+    "settings": {
+        "title": "Deine Einstellungen",
+        "profilePicturePlaceholder": "URL deines Profilbilds",
+        "usernamePlaceholder": "Benutzername",
+        "bioPlaceholder": "Eine kurzer Biografie von dir",
+        "emailPlaceholder": "E-Mail",
+        "passwordPlaceholder": "Passwort",
+        "updateSettingsButton": "Einstellungen sichern",
+        "error": {
+            "saveChanges": "Abspeichern der Einstellungen nicht möglich",
+            "usernameBlank": "Du musst einen Benutzernamen angeben.",
+            "emailBlank": "Du musst eine E-Mail angeben."
+        }
+    }
+}
