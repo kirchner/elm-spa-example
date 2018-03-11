@@ -10,7 +10,10 @@ import Http
 import Page.Errored exposing (PageLoadError, pageLoadError)
 import Request.Article
 import Route
+import T.Article.Editor
+import T.Article.Editor.Error
 import Task exposing (Task)
+import Translation exposing (asString)
 import Util exposing ((=>), pair, viewIf)
 import Validate exposing (Validator, ifBlank, validate)
 import Views.Form as Form
@@ -50,7 +53,12 @@ initEdit session slug =
     in
     Request.Article.get maybeAuthToken slug
         |> Http.toTask
-        |> Task.mapError (\_ -> pageLoadError Page.Other "Article is currently unavailable.")
+        |> Task.mapError
+            (\_ ->
+                T.Article.Editor.Error.articleUnavailable
+                    |> asString
+                    |> pageLoadError Page.Other
+            )
         |> Task.map
             (\article ->
                 { errors = []
@@ -89,34 +97,42 @@ viewForm model =
 
         saveButtonText =
             if isEditing then
-                "Update Article"
+                asString T.Article.Editor.saveButtonUpdate
             else
-                "Publish Article"
+                asString T.Article.Editor.saveButtonPublish
     in
     Html.form [ onSubmit Save ]
         [ fieldset []
             [ Form.input
                 [ class "form-control-lg"
-                , placeholder "Article Title"
+                , T.Article.Editor.titlePlaceholder
+                    |> asString
+                    |> placeholder
                 , onInput SetTitle
                 , defaultValue model.title
                 ]
                 []
             , Form.input
-                [ placeholder "What's this article about?"
+                [ T.Article.Editor.descriptionPlaceholder
+                    |> asString
+                    |> placeholder
                 , onInput SetDescription
                 , defaultValue model.description
                 ]
                 []
             , Form.textarea
-                [ placeholder "Write your article (in markdown)"
+                [ T.Article.Editor.contentPlaceholder
+                    |> asString
+                    |> placeholder
                 , attribute "rows" "8"
                 , onInput SetBody
                 , defaultValue model.body
                 ]
                 []
             , Form.input
-                [ placeholder "Enter tags"
+                [ T.Article.Editor.tagsPlaceholder
+                    |> asString
+                    |> placeholder
                 , onInput SetTags
                 , defaultValue (String.join " " model.tags)
                 ]
@@ -181,7 +197,7 @@ update user msg model =
                 |> pair model
 
         CreateCompleted (Err error) ->
-            { model | errors = model.errors ++ [ Form => "Server error while attempting to publish article" ] }
+            { model | errors = model.errors ++ [ Form => asString T.Article.Editor.Error.publishArticle ] }
                 => Cmd.none
 
         EditCompleted (Ok article) ->
@@ -190,7 +206,7 @@ update user msg model =
                 |> pair model
 
         EditCompleted (Err error) ->
-            { model | errors = model.errors ++ [ Form => "Server error while attempting to save article" ] }
+            { model | errors = model.errors ++ [ Form => asString T.Article.Editor.Error.saveArticle ] }
                 => Cmd.none
 
 
@@ -211,8 +227,8 @@ type alias Error =
 modelValidator : Validator Error Model
 modelValidator =
     Validate.all
-        [ ifBlank .title (Title => "title can't be blank.")
-        , ifBlank .body (Body => "body can't be blank.")
+        [ ifBlank .title (Title => asString T.Article.Editor.Error.titleBlank)
+        , ifBlank .body (Body => asString T.Article.Editor.Error.bodyBlank)
         ]
 
 

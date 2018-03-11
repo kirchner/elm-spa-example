@@ -12,7 +12,10 @@ import Http
 import Page.Errored exposing (PageLoadError, pageLoadError)
 import Request.Article
 import SelectList exposing (SelectList)
+import T.Home
+import T.Home.PopularTags
 import Task exposing (Task)
+import Translation exposing (asString)
 import Util exposing ((=>), onClickStopPropagation)
 import Views.Article.Feed as Feed exposing (FeedSource, globalFeed, tagFeed, yourFeed)
 import Views.Page as Page
@@ -44,7 +47,9 @@ init session =
             Feed.init session feedSources
 
         handleLoadError _ =
-            pageLoadError Page.Home "Homepage is currently unavailable."
+            T.Home.homepageUnavailable
+                |> asString
+                |> pageLoadError Page.Home
     in
     Task.map2 Model loadTags loadSources
         |> Task.mapError handleLoadError
@@ -63,7 +68,11 @@ view session model =
                 [ div [ class "col-md-9" ] (viewFeed model.feed)
                 , div [ class "col-md-3" ]
                     [ div [ class "sidebar" ]
-                        [ p [] [ text "Popular Tags" ]
+                        [ p []
+                            [ T.Home.PopularTags.title
+                                |> asString
+                                |> text
+                            ]
                         , viewTags model.tags
                         ]
                     ]
@@ -77,7 +86,11 @@ viewBanner =
     div [ class "banner" ]
         [ div [ class "container" ]
             [ h1 [ class "logo-font" ] [ text "conduit" ]
-            , p [] [ text "A place to share your knowledge." ]
+            , p []
+                [ T.Home.subtitle
+                    |> asString
+                    |> text
+                ]
             ]
         ]
 

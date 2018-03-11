@@ -14,7 +14,9 @@ import Page.Errored exposing (PageLoadError, pageLoadError)
 import Request.Article exposing (ListConfig, defaultListConfig)
 import Request.Profile
 import SelectList exposing (SelectList)
+import T.Profile.Error
 import Task exposing (Task)
+import Translation exposing (asString)
 import Util exposing ((=>), pair, viewIf)
 import Views.Article.Feed as Feed exposing (FeedSource, authorFeed, favoritedFeed)
 import Views.Errors as Errors
@@ -51,7 +53,8 @@ init session username =
             Feed.init session (defaultFeedSources username)
 
         handleLoadError _ =
-            "Profile is currently unavailable."
+            T.Profile.Error.profileUnavailable
+                |> asString
                 |> pageLoadError (Page.Profile username)
     in
     Task.map2 (Model []) loadProfile loadFeedSources
@@ -128,7 +131,7 @@ update session msg model =
         ToggleFollow ->
             case session.user of
                 Nothing ->
-                    { model | errors = model.errors ++ [ "You are currently signed out. You must be signed in to follow people." ] }
+                    { model | errors = model.errors ++ [ asString T.Profile.Error.signedOut ] }
                         => Cmd.none
 
                 Just user ->

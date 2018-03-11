@@ -10,6 +10,9 @@ import Json.Decode as Decode exposing (Decoder, decodeString, field, string)
 import Json.Decode.Pipeline exposing (decode, optional)
 import Request.User exposing (storeSession)
 import Route exposing (Route)
+import T.Register
+import T.Register.Error
+import Translation exposing (asString)
 import Util exposing ((=>))
 import Validate exposing (Validator, ifBlank, validate)
 import Views.Form as Form
@@ -45,10 +48,17 @@ view session model =
         [ div [ class "container page" ]
             [ div [ class "row" ]
                 [ div [ class "col-md-6 offset-md-3 col-xs-12" ]
-                    [ h1 [ class "text-xs-center" ] [ text "Sign up" ]
+                    [ h1 [ class "text-xs-center" ]
+                        [ T.Register.title
+                            |> asString
+                            |> text
+                        ]
                     , p [ class "text-xs-center" ]
                         [ a [ Route.href Route.Login ]
-                            [ text "Have an account?" ]
+                            [ T.Register.subtitle
+                                |> asString
+                                |> text
+                            ]
                         ]
                     , Form.viewErrors model.errors
                     , viewForm
@@ -63,24 +73,33 @@ viewForm =
     Html.form [ onSubmit SubmitForm ]
         [ Form.input
             [ class "form-control-lg"
-            , placeholder "Username"
+            , T.Register.usernamePlaceholder
+                |> asString
+                |> placeholder
             , onInput SetUsername
             ]
             []
         , Form.input
             [ class "form-control-lg"
-            , placeholder "Email"
+            , T.Register.emailPlaceholder
+                |> asString
+                |> placeholder
             , onInput SetEmail
             ]
             []
         , Form.password
             [ class "form-control-lg"
-            , placeholder "Password"
+            , T.Register.passwordPlaceholder
+                |> asString
+                |> placeholder
             , onInput SetPassword
             ]
             []
         , button [ class "btn btn-lg btn-primary pull-xs-right" ]
-            [ text "Sign up" ]
+            [ T.Register.signUpButton
+                |> asString
+                |> text
+            ]
         ]
 
 
@@ -141,7 +160,7 @@ update msg model =
                                 |> Result.withDefault []
 
                         _ ->
-                            [ "unable to process registration" ]
+                            [ asString T.Register.Error.registration ]
             in
             { model | errors = List.map (\errorMessage -> Form => errorMessage) errorMessages }
                 => Cmd.none
@@ -171,9 +190,9 @@ type alias Error =
 modelValidator : Validator Error Model
 modelValidator =
     Validate.all
-        [ ifBlank .username (Username => "username can't be blank.")
-        , ifBlank .email (Email => "email can't be blank.")
-        , ifBlank .password (Password => "password can't be blank.")
+        [ ifBlank .username (Username => asString T.Register.Error.usernameBlank)
+        , ifBlank .email (Email => asString T.Register.Error.emailBlank)
+        , ifBlank .password (Password => asString T.Register.Error.passwordBlank)
         ]
 
 

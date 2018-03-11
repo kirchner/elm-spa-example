@@ -9,6 +9,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Lazy exposing (lazy2)
 import Route exposing (Route)
+import T
+import Translation exposing (asNodes, asString)
 import Util exposing ((=>))
 import Views.Spinner exposing (spinner)
 
@@ -56,7 +58,12 @@ viewHeader page user isLoading =
                 [ text "conduit" ]
             , ul [ class "nav navbar-nav pull-xs-right" ] <|
                 lazy2 Util.viewIf isLoading spinner
-                    :: navbarLink page Route.Home [ text "Home" ]
+                    :: navbarLink page
+                        Route.Home
+                        [ T.homeLink
+                            |> asString
+                            |> text
+                        ]
                     :: viewSignIn page user
             ]
         ]
@@ -75,14 +82,30 @@ viewSignIn page user =
             ]
 
         Just user ->
-            [ linkTo Route.NewArticle [ i [ class "ion-compose" ] [], text " New Post" ]
-            , linkTo Route.Settings [ i [ class "ion-gear-a" ] [], text " Settings" ]
+            [ linkTo Route.NewArticle
+                [ i [ class "ion-compose" ] []
+                , text " "
+                , T.newPostLink
+                    |> asString
+                    |> text
+                ]
+            , linkTo Route.Settings
+                [ i [ class "ion-gear-a" ] []
+                , text " "
+                , T.settingsLink
+                    |> asString
+                    |> text
+                ]
             , linkTo
                 (Route.Profile user.username)
                 [ img [ class "user-pic", UserPhoto.src user.image ] []
                 , User.usernameToHtml user.username
                 ]
-            , linkTo Route.Logout [ text "Sign out" ]
+            , linkTo Route.Logout
+                [ T.signOutLink
+                    |> asString
+                    |> text
+                ]
             ]
 
 
@@ -90,12 +113,16 @@ viewFooter : Html msg
 viewFooter =
     footer []
         [ div [ class "container" ]
-            [ a [ class "logo-font", href "/" ] [ text "conduit" ]
-            , span [ class "attribution" ]
-                [ text "An interactive learning project from "
-                , a [ href "https://thinkster.io" ] [ text "Thinkster" ]
-                , text ". Code & design licensed under MIT."
+            [ a [ class "logo-font", href "/" ]
+                [ T.conduit
+                    |> asString
+                    |> text
                 ]
+            , span [ class "attribution" ]
+                (T.attribution
+                    |> asNodes text
+                        { link = a [ href "https://thinkster.io" ] }
+                )
             ]
         ]
 

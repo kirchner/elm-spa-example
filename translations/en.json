@@ -1,0 +1,112 @@
+{
+    "okButton": "OK",
+    "homeLink": "Home",
+    "newPostLink": "New Post",
+    "settingsLink": "Settings",
+    "signOutLink": "Sign out",
+    "conduit": "conduit",
+    "attribution": "An interactive learning project from {link, node, {Thinkster}}. Code & design licensed under MIT.",
+    "article": {
+        "articleUnavailable": "Article is currently unavailable.",
+        "signInOrSignUp": "{toLogin, node, {Sign in}} or {toRegister, node, {sign up}} to add comments on this article.",
+        "writeAComment": "Write a comment...",
+        "postComment": "Post Comment",
+        "favouriteArticleButton": "Favourite Article ({count, number})",
+        "deleteArticleButton": "Delete Article",
+        "editArticleButton": "Edit Article",
+        "readMore": "Read more...",
+        "error": {
+            "recordFavorite": "There was a server error trying to record your Favorite. Sorry!",
+            "followUser": "Unable to follow user.",
+            "postComment": "Server error while trying to post comment.",
+            "deleteComment": "Server error while trying to delete comment.",
+            "deleteArticle": "Server error while trying to delete article."
+        },
+        "editor": {
+            "titlePlaceholder": "Article Title",
+            "descriptionPlaceholder": "What''s this article about?",
+            "contentPlaceholder": "Write your article (in markdown)",
+            "tagsPlaceholder": "Enter tags",
+            "saveButtonUpdate": "Update Article",
+            "saveButtonPublish": "Publish Article",
+            "error": {
+                "articleUnavailable": "Article is currently unavailable.",
+                "publishArticle": "Server error while attempting to publish article",
+                "saveArticle": "Server error while attempting to save article",
+                "titleBlank": "title can''t be blank.",
+                "bodyBlank": "body can''t be blank."
+            }
+        },
+        "feed": {
+            "yourFeed": "Your Feed",
+            "globalFeed": "Global Feed",
+            "favoritedFeed": "Favorited Articles",
+            "authorFeed": "My Articles",
+            "error": {
+                "loadFeed": "Server error while trying to load feed",
+                "signedOut": "You are currently signed out. You must sign in to favorite articles.",
+                "favoriteArticle": "Server error while trying to favorite article.",
+                "signedIn": "You need to be signed in to view your feed."
+            }
+        }
+    },
+    "errored": {
+        "title": "Error Loading Page"
+    },
+    "home": {
+        "homepageUnavailable": "Homepage is currently unavailable.",
+        "subtitle": "A place to share your knowledge.",
+        "popularTags": {
+            "title": "Popular Tags"
+        }
+    },
+    "login": {
+        "title": "Sign in",
+        "subtitle": "Need an account?",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "signInButton": "Sign in",
+        "error": {
+            "login": "unable to perform login",
+            "emailBlank": "email can''t be blank.",
+            "passwordBlank": "password can''t be blank."
+        }
+    },
+    "notFound": {
+        "title": "Not Found"
+    },
+    "profile": {
+        "error": {
+            "profileUnavailable": "Profile is currently unavailable.",
+            "signedOut": "You are currently signed out. You must be signed in to follow people."
+        }
+    },
+    "register": {
+        "title": "Sign up",
+        "subtitle": "Have an account?",
+        "usernamePlaceholder": "Username",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "signUpButton": "Sign up",
+        "error": {
+            "registration": "unable to process registration",
+            "usernameBlank": "username can''t be blank.",
+            "emailBlank": "email can''t be blank.",
+            "passwordBlank": "password can''t be blank."
+        }
+    },
+    "settings": {
+        "title": "Your Settings",
+        "profilePicturePlaceholder": "URL of profile picture",
+        "usernamePlaceholder": "Username",
+        "bioPlaceholder": "Short bio about you",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "updateSettingsButton": "Update Settings",
+        "error": {
+            "saveChanges": "unable to save changes",
+            "usernameBlank": "username can''t be blank.",
+            "emailBlank": "email can''t be blank."
+        }
+    }
+}

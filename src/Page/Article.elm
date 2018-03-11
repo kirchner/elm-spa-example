@@ -20,7 +20,10 @@ import Request.Article
 import Request.Article.Comments
 import Request.Profile
 import Route
+import T.Article
+import T.Article.Error
 import Task exposing (Task)
+import Translation exposing (asNodes, asString, asStringWith)
 import Util exposing ((=>), pair, viewIf)
 import Views.Article
 import Views.Article.Favorite as Favorite
@@ -57,7 +60,9 @@ init session slug =
                 |> Http.toTask
 
         handleLoadError _ =
-            pageLoadError Page.Other "Article is currently unavailable."
+            T.Article.articleUnavailable
+                |> asString
+                |> pageLoadError Page.Other
     in
     Task.map2 (Model [] "" False) loadArticle loadComments
         |> Task.mapError handleLoadError
@@ -138,18 +143,21 @@ viewAddComment postingDisabled maybeUser =
     case maybeUser of
         Nothing ->
             p []
-                [ a [ Route.href Route.Login ] [ text "Sign in" ]
-                , text " or "
-                , a [ Route.href Route.Register ] [ text "sign up" ]
-                , text " to add comments on this article."
-                ]
+                (T.Article.signInOrSignUp
+                    |> asNodes text
+                        { toLogin = a [ Route.href Route.Login ]
+                        , toRegister = a [ Route.href Route.Register ]
+                        }
+                )
 
         Just user ->
             Html.form [ class "card comment-form", onSubmit PostComment ]
                 [ div [ class "card-block" ]
                     [ textarea
                         [ class "form-control"
-                        , placeholder "Write a comment..."
+                        , T.Article.writeAComment
+                            |> asString
+                            |> placeholder
                         , attribute "rows" "3"
                         , onInput SetCommentText
                         ]
@@ -161,7 +169,10 @@ viewAddComment postingDisabled maybeUser =
                         [ class "btn btn-sm btn-primary"
                         , disabled postingDisabled
                         ]
-                        [ text "Post Comment" ]
+                        [ T.Article.postComment
+                            |> asString
+                            |> text
+                        ]
                     ]
                 ]
 
@@ -270,7 +281,7 @@ update session msg model =
         FavoriteCompleted (Err error) ->
             -- In a serious production application, we would log the error to
             -- a logging service so we could investigate later.
-            [ "There was a server error trying to record your Favorite. Sorry!" ]
+            [ asString T.Article.Error.recordFavorite ]
                 |> Util.appendErrors model
                 => Cmd.none
 
@@ -293,7 +304,7 @@ update session msg model =
             { model | article = newArticle } => Cmd.none
 
         FollowCompleted (Err error) ->
-            { model | errors = "Unable to follow user." :: model.errors }
+            { model | errors = asString T.Article.Error.followUser :: model.errors }
                 => Cmd.none
 
         SetCommentText commentText ->
@@ -325,7 +336,7 @@ update session msg model =
                 => Cmd.none
 
         CommentPosted (Err error) ->
-            { model | errors = model.errors ++ [ "Server error while trying to post comment." ] }
+            { model | errors = model.errors ++ [ asString T.Article.Error.postComment ] }
                 => Cmd.none
 
         DeleteComment id ->
@@ -344,7 +355,7 @@ update session msg model =
                 => Cmd.none
 
         CommentDeleted id (Err error) ->
-            { model | errors = model.errors ++ [ "Server error while trying to delete comment." ] }
+            { model | errors = model.errors ++ [ asString T.Article.Error.deleteComment ] }
                 => Cmd.none
 
         DeleteArticle ->
@@ -362,7 +373,7 @@ update session msg model =
             model => Route.modifyUrl Route.Home
 
         ArticleDeleted (Err error) ->
-            { model | errors = model.errors ++ [ "Server error while trying to delete article." ] }
+            { model | errors = model.errors ++ [ asString T.Article.Error.deleteArticle ] }
                 => Cmd.none
 
 
@@ -377,23 +388,34 @@ withoutComment id =
 
 favoriteButton : Article a -> Html Msg
 favoriteButton article =
-    let
-        favoriteText =
-            " Favorite Article (" ++ toString article.favoritesCount ++ ")"
-    in
-    Favorite.button (\_ -> ToggleFavorite) article [] [ text favoriteText ]
+    Favorite.button (\_ -> ToggleFavorite) article [] <|
+        [ text " "
+        , T.Article.favouriteArticleButton
+            |> asStringWith { count = toFloat article.favoritesCount }
+            |> text
+        ]
 
 
 deleteButton : Article a -> Html Msg
 deleteButton article =
     button [ class "btn btn-outline-danger btn-sm", onClick DeleteArticle ]
-        [ i [ class "ion-trash-a" ] [], text " Delete Article" ]
+        [ i [ class "ion-trash-a" ] []
+        , text " "
+        , T.Article.deleteArticleButton
+            |> asString
+            |> text
+        ]
 
 
 editButton : Article a -> Html Msg
 editButton article =
     a [ class "btn btn-outline-secondary btn-sm", Route.href (Route.EditArticle article.slug) ]
-        [ i [ class "ion-edit" ] [], text " Edit Article" ]
+        [ i [ class "ion-edit" ] []
+        , text " "
+        , T.Article.editArticleButton
+            |> asString
+            |> text
+        ]
 
 
 followButton : Follow.State record -> Html Msg

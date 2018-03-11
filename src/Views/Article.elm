@@ -9,6 +9,8 @@ import Date.Format
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, classList, href, id, placeholder, src)
 import Route exposing (Route)
+import T.Article
+import Translation exposing (asString)
 import Views.Article.Favorite as Favorite
 import Views.Author
 
@@ -46,7 +48,11 @@ view toggleFavorite article =
         , a [ class "preview-link", Route.href (Route.Article article.slug) ]
             [ h1 [] [ text article.title ]
             , p [] [ text article.description ]
-            , span [] [ text "Read more..." ]
+            , span []
+                [ T.Article.readMore
+                    |> asString
+                    |> text
+                ]
             ]
         ]
 

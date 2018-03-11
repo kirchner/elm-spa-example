@@ -6,6 +6,8 @@ module Views.Errors exposing (view)
 import Html exposing (..)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
+import T
+import Translation exposing (asString)
 import Util exposing ((=>))
 
 
@@ -16,7 +18,12 @@ view dismissErrors errors =
     else
         div [ class "error-messages", styles ] <|
             List.map (\error -> p [] [ text error ]) errors
-                ++ [ button [ onClick dismissErrors ] [ text "Ok" ] ]
+                ++ [ button [ onClick dismissErrors ]
+                        [ T.okButton
+                            |> asString
+                            |> text
+                        ]
+                   ]
 
 
 styles : Attribute msg

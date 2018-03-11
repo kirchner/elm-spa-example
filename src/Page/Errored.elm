@@ -11,6 +11,8 @@ of a giant walrus exploding the golden gate bridge with laser beams. Pew pew!
 import Data.Session exposing (Session)
 import Html exposing (Html, div, h1, img, main_, p, text)
 import Html.Attributes exposing (alt, class, id, tabindex)
+import T.Errored
+import Translation exposing (asString)
 import Views.Page exposing (ActivePage)
 
 
@@ -39,7 +41,11 @@ pageLoadError activePage errorMessage =
 view : Session -> PageLoadError -> Html msg
 view session (PageLoadError model) =
     main_ [ id "content", class "container", tabindex -1 ]
-        [ h1 [] [ text "Error Loading Page" ]
+        [ h1 []
+            [ T.Errored.title
+                |> asString
+                |> text
+            ]
         , div [ class "row" ]
             [ p [] [ text model.errorMessage ] ]
         ]

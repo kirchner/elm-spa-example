@@ -11,6 +11,9 @@ import Json.Decode as Decode exposing (Decoder, decodeString, field, list, strin
 import Json.Decode.Pipeline exposing (decode, optional)
 import Request.User exposing (storeSession)
 import Route
+import T.Settings
+import T.Settings.Error
+import Translation exposing (asString)
 import Util exposing ((=>), pair)
 import Validate exposing (Validator, ifBlank, validate)
 import Views.Form as Form
@@ -50,7 +53,11 @@ view session model =
         [ div [ class "container page" ]
             [ div [ class "row" ]
                 [ div [ class "col-md-6 offset-md-3 col-xs-12" ]
-                    [ h1 [ class "text-xs-center" ] [ text "Your Settings" ]
+                    [ h1 [ class "text-xs-center" ]
+                        [ T.Settings.title
+                            |> asString
+                            |> text
+                        ]
                     , Form.viewErrors model.errors
                     , viewForm model
                     ]
@@ -64,21 +71,27 @@ viewForm model =
     Html.form [ onSubmit SubmitForm ]
         [ fieldset []
             [ Form.input
-                [ placeholder "URL of profile picture"
+                [ T.Settings.profilePicturePlaceholder
+                    |> asString
+                    |> placeholder
                 , defaultValue (Maybe.withDefault "" model.image)
                 , onInput SetImage
                 ]
                 []
             , Form.input
                 [ class "form-control-lg"
-                , placeholder "Username"
+                , T.Settings.usernamePlaceholder
+                    |> asString
+                    |> placeholder
                 , defaultValue model.username
                 , onInput SetUsername
                 ]
                 []
             , Form.textarea
                 [ class "form-control-lg"
-                , placeholder "Short bio about you"
+                , T.Settings.bioPlaceholder
+                    |> asString
+                    |> placeholder
                 , attribute "rows" "8"
                 , defaultValue model.bio
                 , onInput SetBio
@@ -86,21 +99,28 @@ viewForm model =
                 []
             , Form.input
                 [ class "form-control-lg"
-                , placeholder "Email"
+                , T.Settings.emailPlaceholder
+                    |> asString
+                    |> placeholder
                 , defaultValue model.email
                 , onInput SetEmail
                 ]
                 []
             , Form.password
                 [ class "form-control-lg"
-                , placeholder "Password"
+                , T.Settings.passwordPlaceholder
+                    |> asString
+                    |> placeholder
                 , defaultValue (Maybe.withDefault "" model.password)
                 , onInput SetPassword
                 ]
                 []
             , button
                 [ class "btn btn-lg btn-primary pull-xs-right" ]
-                [ text "Update Settings" ]
+                [ T.Settings.updateSettingsButton
+                    |> asString
+                    |> text
+                ]
             ]
         ]
 
@@ -191,7 +211,7 @@ update session msg model =
                                 |> Result.withDefault []
 
                         _ ->
-                            [ "unable to save changes" ]
+                            [ asString T.Settings.Error.saveChanges ]
 
                 errors =
                     errorMessages
@@ -227,8 +247,8 @@ type alias Error =
 modelValidator : Validator Error Model
 modelValidator =
     Validate.all
-        [ ifBlank .username (Username => "username can't be blank.")
-        , ifBlank .email (Email => "email can't be blank.")
+        [ ifBlank .username (Username => asString T.Settings.Error.usernameBlank)
+        , ifBlank .email (Email => asString T.Settings.Error.emailBlank)
         ]
 
 

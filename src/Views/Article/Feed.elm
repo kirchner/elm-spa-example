@@ -28,7 +28,10 @@ import Html.Events exposing (onClick)
 import Http
 import Request.Article
 import SelectList exposing (Position(..), SelectList)
+import T.Article.Feed
+import T.Article.Feed.Error
 import Task exposing (Task)
+import Translation exposing (asString)
 import Util exposing ((=>), onClickStopPropagation, pair, viewIf)
 import Views.Article
 import Views.Errors as Errors
@@ -120,19 +123,19 @@ sourceName : FeedSource -> String
 sourceName source =
     case source of
         YourFeed ->
-            "Your Feed"
+            asString T.Article.Feed.yourFeed
 
         GlobalFeed ->
-            "Global Feed"
+            asString T.Article.Feed.globalFeed
 
         TagFeed tagName ->
             "#" ++ Article.tagToString tagName
 
         FavoritedFeed username ->
-            "Favorited Articles"
+            asString T.Article.Feed.favoritedFeed
 
         AuthorFeed username ->
-            "My Articles"
+            asString T.Article.Feed.authorFeed
 
 
 limit : FeedSource -> Int
@@ -225,7 +228,7 @@ updateInternal session msg model =
 
         FeedLoadCompleted _ (Err error) ->
             { model
-                | errors = model.errors ++ [ "Server error while trying to load feed" ]
+                | errors = model.errors ++ [ asString T.Article.Feed.Error.loadFeed ]
                 , isLoading = False
             }
                 => Cmd.none
@@ -233,7 +236,7 @@ updateInternal session msg model =
         ToggleFavorite article ->
             case session.user of
                 Nothing ->
-                    { model | errors = model.errors ++ [ "You are currently signed out. You must sign in to favorite articles." ] }
+                    { model | errors = model.errors ++ [ asString T.Article.Feed.Error.signedOut ] }
                         => Cmd.none
 
                 Just user ->
@@ -252,7 +255,7 @@ updateInternal session msg model =
             { model | feed = newFeed } => Cmd.none
 
         FavoriteCompleted (Err error) ->
-            { model | errors = model.errors ++ [ "Server error while trying to favorite article." ] }
+            { model | errors = model.errors ++ [ asString T.Article.Feed.Error.favoriteArticle ] }
                 => Cmd.none
 
         SelectPage page ->
@@ -302,7 +305,7 @@ fetch token page feedSource =
                     in
                     token
                         |> Maybe.map (Request.Article.feed feedConfig >> Http.toTask)
-                        |> Maybe.withDefault (Task.fail (Http.BadUrl "You need to be signed in to view your feed."))
+                        |> Maybe.withDefault (Task.fail (Http.BadUrl (asString T.Article.Feed.Error.signedIn)))
 
                 GlobalFeed ->
                     Request.Article.list listConfig token

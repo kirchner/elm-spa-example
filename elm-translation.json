@@ -1,0 +1,13 @@
+{
+    "source-directory": "./src",
+    "module-prefix": "",
+    "module-name": "T",
+    "locales": [
+        {
+            "name": "en",
+            "code": "en",
+            "file-path": "./translations/en.json",
+            "fallbacks": []
+        }
+    ]
+}
